@@ -32,4 +32,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+    * each User has a Worker
+    */
+
+    public function worker()
+    {
+        $this->belongsTo('App\Worker');
+    }
 }

@@ -8,7 +8,7 @@
 
 <style>
 	.container {
-		height: 100vh;
+		height: 80vh;
 		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,1e5799+32,1e5799+65,1e5799+65,7db9e8+100 */
 		background: #1e5799; /* Old browsers */
 		background: -moz-linear-gradient(top, #1e5799 0%, #1e5799 32%, #1e5799 65%, #1e5799 65%, #7db9e8 100%); /* FF3.6-15 */

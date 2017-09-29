@@ -128,7 +128,7 @@
 					<select name="zone" id="zona" class="form-control">
 						<option  selected="true" disabled="true">Selec. Zona</option>
 						@foreach(	$zones as $zona )
-							<option value="{{ $zona->idZona }}">{{ $zona->name }}</option>
+							<option value="{{ $zona->idZone }}">{{ $zona->name }}</option>
 						@endforeach
 						<option value="other">Otro</option>
 					</select>

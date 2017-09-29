@@ -6,7 +6,7 @@
 
 @section('content')
 <style>
-		.nro, .editar, .eliminar {
+		.nro, .editar, .eliminar, .ver {
 			font-weight: bold;
 			color: black;
 		}
@@ -14,6 +14,12 @@
 		#eliminarCliente .modal-body p {
 			color: red;
 		}
+
+		a.ver {
+			color: blue;
+			font-style: none;
+		}
+
 		a.editar {
 			color: green;
 			font-style: none;
@@ -25,6 +31,12 @@
 		}
 </style>
 <div class="container">
+	@if(strlen($message) > 0)
+		<div class="alert alert-info alert-dismissible" role="alert">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  <strong>{{$message}}</strong>
+		</div>
+	@endif
 	<h3>Listado de Clientes</h3>
 	<table class="table table-hover table-stripped">
 		<thead>
@@ -37,6 +49,7 @@
 				<th>Accion</th>
 				<th>Accion</th>
 				<th>Accion</th>
+				<th>Accion</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -46,11 +59,12 @@
 			$i = $i + 1;
 		?>	
 			<tr>
-				<td><a href="#" role="button" data-toggle="modal" data-target="#verCliente" data-row="{{ $i }}" data-value="{{ $client->idClient }}" class="seeClient"><span class="nro">{{ $i }}</span></a></td>
-				<td><a href="#" role="button" data-toggle="modal" data-target="#verCliente" data-row="{{ $i }}" data-value="{{ $client->idClient }}" class="seeClient"><span id="nombre1" data-value="{{ $client->name }}"></span>{{ $client->name }}</a></td>
-				<td><a href="#" role="button" data-toggle="modal" data-target="#verCliente" data-row="{{ $i }}" data-value="{{ $client->idClient }}" class="seeClient"><span id="apellido1" data-value="{{ $client->lastname }}"></span>{{ $client->lastname }}</a></td>
+				<td><span class="nro">{{ $i }}</span></a></td>
+				<td><span id="nombre1" data-value="{{ $client->name }}"></span>{{ $client->name }}</a></td>
+				<td><span id="apellido1" data-value="{{ $client->lastname }}"></span>{{ $client->lastname }}</a></td>
 				<td><a href="#" role="button" data-toggle="modal" data-target="#llamarCliente" data-row="{{ $i }}" data-value="{{ $client->idClient }}" class="callClient"><span data-toggle="tooltip" data-placement="top" title="Llamar"><span class="glyphicon glyphicon-earphone"></span> {{ $client->phone_number }}</span></a></td>
-				<td><a href="#">{{ $client->address }}, {{ $client->state }}</a></td>
+				<td>{{ $client->address }}, {{ $client->state }}</td>
+				<td><a href="{{ route('clients.show', ['id' => $client->idClient]) }}" class="ver" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> Ver</a></td>
 				<td><a href="{{ route('clients.edit', [ 'id' => $client->idClient ]) }}" class="editar toedit"><span class="glyphicon glyphicon-edit"></span> Editar</a></td>
 				<td><a href="#" role="button" data-toggle="modal" data-target="#eliminarCliente" data-row="{{ $i }}" data-value="{{ $client->idClient }}" class="eliminar todelete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a></td>
 				<td><a href="#" role="button" data-toggle="modal" data-target="#hacerReferente" data-row="{{ $i }}" data-value="{{ $client->idClient }}" class="doreferent">Hacer Referente</a></td>
@@ -176,25 +190,6 @@
 	        	<button type="submit" name="opcionLLamada" id="EnviarOpcion" class="btn btn-warning" value="">Aceptar</button>
 	      <!--	</form>-->
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-	      </div>
-	    </div><!-- /.modal-content -->
-	  </div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
-
-	<!-- Ver Cliente -->
-	<div class="modal fade" tabindex="-1" role="dialog" id="verCliente">
-	  <div class="modal-dialog modal-lg" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	       	<h3 class="modal-title" style="color: blue; font-weight: bold;">Ver Cliente</h3>
-	      </div>
-	      <div class="modal-body">
-	        @include('clients.seeClient')
-	      </div>
-	      <div class="modal-footer">
-	      	<a href="#"><button type="button" class="btn btn-info">Ver Historial</button></a>
-	        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->

@@ -29,7 +29,7 @@ class CreateClientsTable extends Migration
             $table->string('hasWorks', 1);
             $table->string('count_number', 20);
             $table->date('date_origin');
-            $table->date('time_origin');
+            $table->time('time_origin');
             $table->string('commentaries', 150);
             $table->integer('origin')->unsigned();
             $table->integer('sub_origin')->unsigned();
