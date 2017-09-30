@@ -16,7 +16,9 @@ Route::get('/', function () {
 });
 
 Route::get('clients/history', 'Clients\ClientController@showHistory' );
-
+Route::get('auth/confirm/email/{email}/confirm_token/{confirm_token}', 'Auth\AuthController@confirmRegister');
+Route::get('auth/showLogin', 'Auth\AuthController@showLogin');
+Route::put('auth.update', 'Auth\AuthController@changePassword');
 Route::resource('clients', 'Clients\ClientController');
 Route::resource('telemarketing', 'Telemarketing\TelemarketingController');
 Route::resource('sales', 'Sales\SalesController');
