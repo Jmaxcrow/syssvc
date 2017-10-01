@@ -340,6 +340,7 @@ class ComposerStaticInit98c331735624a80b80047acede6492e1
         'CreateOriginsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_215802_create_origins_table.php',
         'CreateRolTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_020846_create_rol_table.php',
         'CreateSellersTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_023903_create_sellers_table.php',
+        'CreateSessionsTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_01_161651_create_sessions_table.php',
         'CreateSubOriginsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_215810_create_sub_origins_table.php',
         'CreateTelemarketerTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_020950_create_telemarketer_table.php',
         'CreateUserRoleTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_020926_create_user_role_table.php',

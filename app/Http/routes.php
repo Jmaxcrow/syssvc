@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function() {
-	return view('auth/login');
-})->name('/');
+Route::get('/', 'PrincipalController@index')->name('/');
 
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -28,9 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('calls', 'Calls\CallsController');
 	Route::resource('dates', 'Dates\DatesController');
 });
-Route::get('/home', [
+Route::get('/principal', [
     'middleware' => 'auth',
-    'uses' => 'PrincipalController@getRole'
+    'uses' => 'PrincipalController@index'
 ]);
 Route::get('auth/login', function() {
 		return view('auth/login', ['message' => 'Datos Incorrectos. Intente Nuevamente']);

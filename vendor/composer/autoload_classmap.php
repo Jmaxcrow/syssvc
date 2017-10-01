@@ -11,6 +11,7 @@ return array(
     'CreateOriginsTable' => $baseDir . '/database/migrations/2017_09_26_215802_create_origins_table.php',
     'CreateRolTable' => $baseDir . '/database/migrations/2017_09_29_020846_create_rol_table.php',
     'CreateSellersTable' => $baseDir . '/database/migrations/2017_09_29_023903_create_sellers_table.php',
+    'CreateSessionsTable' => $baseDir . '/database/migrations/2017_10_01_161651_create_sessions_table.php',
     'CreateSubOriginsTable' => $baseDir . '/database/migrations/2017_09_26_215810_create_sub_origins_table.php',
     'CreateTelemarketerTable' => $baseDir . '/database/migrations/2017_09_29_020950_create_telemarketer_table.php',
     'CreateUserRoleTable' => $baseDir . '/database/migrations/2017_09_29_020926_create_user_role_table.php',

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
 
+use Session;
 use App\Http\Requests;
 use App\Role;
 use App\User;
@@ -14,12 +15,23 @@ use App\Http\Controllers\Controller;
 
 class PrincipalController extends Controller
 {
+    public function __construct($foo = null)
+    {
+       $this->middleware('auth');
+    }
     /**
-    * Get the role(s) allowed for the user
-    */
-    public function getRole()
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
         if (Auth::check()) {
+            if (Session::has('roles')) {
+                $roles = Session::get('roles');
+                return view('principal', ['roles' => $roles]);
+            }
+
             $user = Auth::user();
             $roles = DB::table('user_roles')
                         ->join('users', 'user_roles.idUser', '=', 'users.idUser')
@@ -28,18 +40,10 @@ class PrincipalController extends Controller
                         ->select('roles.*')
                         ->orderBy('idRole', 'desc')
                         ->get();
+            Session::put('roles', $roles);
             return view('principal', ['roles' => $roles]);
         }
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        Auth::check();
+        return redirect('auth/login');
     }
 
     /**

@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Worker extends Model
 {
-    protected $primarykey = 'idWorker';
+		protected $table = 'workers';
+    protected $primaryKey = 'idWorker';
 
     public function user()
     {

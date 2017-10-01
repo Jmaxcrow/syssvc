@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Clients;
 
 use Illuminate\Http\Request;
 
+use Session;
 use App\Client;
 use App\Origin;
 use App\Zone;
@@ -17,6 +18,21 @@ class ClientController extends Controller
     public function __construct($foo = null)
     {
        $this->middleware('auth');
+       $roles = Session::get('roles');
+       $allowed = false;
+       foreach ($roles as $role) {
+            if (strcasecmp($role->name, 'administrador') == 0 ) {
+                $allowed = true;
+            }
+            if (strcasecmp($role->name, 'vendedor') == 0 ) {
+                $allowed = true;
+            }
+        }
+        if (!($allowed)) {
+            Session::flush();
+            Session::put('message', 'Acceso Denegado. No tiene Permisos Para Acceder al Modulo de Telemarketing!!!. Accion Registrada');
+            Redirect::to('/auth/logout')->send();
+        }
     }
     /**
      * Display a listing of the resource.
@@ -25,8 +41,9 @@ class ClientController extends Controller
      */
     public function index($message = null)
     {
+        $roles = Session::get('roles');
         $clients = Client::all();
-        $data = ['clients' => $clients, 'message' => $message];
+        $data = ['clients' => $clients, 'message' => $message, 'roles' => $roles];
         return view('clients/listClients', $data);
     }
     /**
@@ -53,10 +70,11 @@ class ClientController extends Controller
      */
     public function create()
     {
+        $roles=Session::get('roles');
         $zones = Zone::all();
         $origins = Origin::all();
         $sub_origins = SubOrigin::all();
-        $data = ['zones' => $zones, 'origins'=> $origins, 'sub_origins' => $sub_origins];
+        $data = ['zones' => $zones, 'origins'=> $origins, 'sub_origins' => $sub_origins, 'roles' => $roles];
         return view('Clients/registerClient', $data);
     }
 
@@ -149,8 +167,9 @@ class ClientController extends Controller
      */
     public function show($id)
     {
+        $roles = Session::get('roles');
         $client = Client::find($id);
-        $data = ['client' => $client];
+        $data = ['client' => $client, 'roles' => $roles];
         return view('clients/seeClient', $data);
     }
 
@@ -162,11 +181,12 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
+        $roles = Session::get('roles');
         $zones = Zone::all();
         $origins = Origin::all();
         $sub_origins = SubOrigin::all();
         $client = Client::find($id)->first();
-        $data = ['client' => $client, 'zones' => $zones, 'sub_origins'=> $sub_origins, 'origins' => $origins ];
+        $data = ['client' => $client, 'zones' => $zones, 'sub_origins'=> $sub_origins, 'origins' => $origins, 'roles' => $roles ];
         return view('clients/editClient', $data);
     }
 

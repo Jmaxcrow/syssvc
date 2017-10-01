@@ -73,9 +73,13 @@
 			<div class="jumbotron">
 				<h1>SYS SVC</h1>
 			</div>
-			<div class="errors-form">
-				<p></p>
-			</div>
+			@if(Session::has('message'))
+				<div class="alert alert-info alert-dismissible" role="alert">
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				  <strong>{{ Session::get('message') }}</strong>
+				  <?php Session::flush(); ?>
+				</div>
+			@endif
 			<form action="/auth/login" method="POST">
 				{!! csrf_field() !!}
 				<div class="form-group col-xs-12 col-sm-6">

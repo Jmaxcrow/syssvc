@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Sales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use Session;
 use Mail;
+use Crypt;
 use App\Seller;
 use App\Worker;
 use App\User;
@@ -14,6 +16,25 @@ use App\Http\Controllers\Controller;
 
 class SalesController extends Controller
 {
+    public function __construct($foo = null)
+    {
+       $this->middleware('auth');
+       $roles = Session::get('roles');
+       $allowed = false;
+       foreach ($roles as $role) {
+            if (strcasecmp($role->name, 'administrador') == 0 ) {
+                $allowed = true;
+            }
+            if (strcasecmp($role->name, 'vendedor') == 0 ) {
+                $allowed = true;
+            }
+        }
+        if (!($allowed)) {
+            Session::flush();
+            Session::put('message', 'Acceso Denegado. No tiene Permisos Para Acceder al Modulo de Telemarketing!!!. Accion Registrada');
+            Redirect::to('/auth/logout')->send();
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,12 +52,13 @@ class SalesController extends Controller
      */
     public function create()
     {
+        $roles = Session::get('roles');
         $sellers = DB::table('sellers')
                     ->join('users', 'sellers.idUser', '=', 'users.idUser')
                     ->join('workers', 'workers.idWorker', '=', 'users.owner')
                     ->select('sellers.idSeller', 'workers.name', 'workers.lastname', 'sellers.level')
                     ->get();
-        $data = ['sellers' => $sellers];
+        $data = ['sellers' => $sellers, 'roles' => $roles];
         return view('sales/registerSeller', $data);
     }
 
@@ -61,7 +83,7 @@ class SalesController extends Controller
         $worker->state = $request->estado;
         $worker->zip_code = $request->zip_code;
         $worker->date_init = $request->fechaInicio;
-
+        $worker->payxcomission = $request->pagoxcomisiones;
         $worker->save();
 
         //create User to send email
@@ -129,7 +151,15 @@ class SalesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $roles = Session::get('roles');
+        $seller = DB::table('sellers')
+                    ->where('sellers.idSeller', '=', $id)
+                    ->join('users', 'sellers.idUser', '=', 'users.idUser')
+                    ->join('workers', 'workers.idWorker', '=', 'users.owner')
+                    ->select('sellers.idSeller', 'sellers.level', 'workers.*')
+                    ->first();
+        $data = ['seller' => $seller, 'roles' => $roles, 'worker' => Crypt::encrypt($seller->idWorker)];
+        return view('sales/editSeller', $data);
     }
 
     /**
@@ -141,7 +171,34 @@ class SalesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //craete Worker first
+        $idWorker = Crypt::decrypt($request->worker);
+        $worker = Worker::find($idWorker);
+
+        $worker->name = $request->name;
+        $worker->lastname = $request->lastname;
+        $worker->address = $request->direccion;
+        $worker->number_apt = $request->nro_apt;
+        $worker->city = $request->ciudad;
+        $worker->state = $request->estado;
+        $worker->zip_code = $request->zip_code;
+        $worker->date_init = $request->fechaInicio;
+        $worker->payxcomission = $request->pagoxcomisiones;
+        $worker->save();
+
+        //creating seller
+        $seller = Seller::find($id);
+
+        $seller->level = $request->level;
+
+        if ($seller->save()) {
+             $message = "El vendedor  $seller->name $seller->lastname ha sido actualizado Exitosamente ";
+         }
+         else {
+            $message = "El vendedor  $seller->name $seller->lastname no ha sido actualizado Exitosamente ";
+         }
+
+        return $this->index($message);
     }
 
     /**

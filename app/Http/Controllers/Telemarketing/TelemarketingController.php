@@ -4,11 +4,30 @@ namespace App\Http\Controllers\Telemarketing;
 
 use Illuminate\Http\Request;
 
+use Redirect;
+use Session;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class TelemarketingController extends Controller
 {
+    public function __construct($foo = null)
+    {
+       $this->middleware('auth');
+       $roles = Session::get('roles');
+        $allowed = false;
+        foreach ($roles as $role) {
+            if (strcasecmp($role->name, 'administrador') == 0 ) {
+                $allowed = true;
+            }
+        }
+        if (!($allowed)) {
+            Session::flush();
+            Session::flash('message', 'Acceso Denegado. No tiene Permisos Para Acceder al Modulo de Telemarketing!!!. Accion Registrada');
+            Redirect::to('/auth/logout')->send();
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,8 +45,7 @@ class TelemarketingController extends Controller
      */
     public function create()
     {
-        //retornamos vista de crear vista en 'resoiurces/views/telemarketing/registerTelemark'
-        return view('telemarketing/registerTelemark');
+        return "hola";
     }
 
     /**
