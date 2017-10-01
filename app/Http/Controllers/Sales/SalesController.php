@@ -75,6 +75,13 @@ class SalesController extends Controller
 
         $user->save();
 
+        //obteniendo rol para asigancion
+
+        $role = Role::where('name', '=', 'vendedor')->first();
+
+
+        DB::insert('insert into user_roles (idUser, idRole) values (?, ?)', [$user->id, $role->id]);
+
         $data['name'] = $worker->name;
         $data['email'] = $user->email;
         $data['confirm_token'] = $user->confirm_token;

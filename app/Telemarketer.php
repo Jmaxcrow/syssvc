@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Telemarketer extends Model
 {
     protected $table = 'telemarketing';
-    protected $primarykey = 'idTelemarketer';
+    protected $primaryKey = 'idTelemarketer';
 
     public function seller()
     {

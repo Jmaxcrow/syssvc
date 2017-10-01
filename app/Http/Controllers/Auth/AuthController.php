@@ -7,6 +7,7 @@ use Mail;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -24,6 +25,8 @@ class AuthController extends Controller
     */
 
     use AuthenticatesAndRegistersUsers;
+
+    protected $redirectPath = '/principal';
 
     /**
      * Create a new authentication controller instance.

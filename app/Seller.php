@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Seller extends Model
 {
-		protected $table = 'sellers';
-    protected $primarykey = 'idSeller';
+	protected $table = 'sellers';
+    protected $primaryKey = 'idSeller';
 
 
     /**

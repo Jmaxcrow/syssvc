@@ -16,7 +16,7 @@ class ClientController extends Controller
 {
     public function __construct($foo = null)
     {
-       $this->middleware('guest');
+       $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.

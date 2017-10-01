@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var string
      */
     protected $table = 'users';
-    protected $primaryjey = 'idUser';
+    protected $primaryKey = 'idUser';
     /**
      * The attributes that are mass assignable.
      *
@@ -40,5 +40,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function worker()
     {
         $this->belongsTo('App\Worker');
+    }
+
+    public function role()
+    {
+        $this->hasMany('App\Role');
     }
 }

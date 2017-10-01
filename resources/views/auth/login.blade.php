@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<title>Login SysInmb</title>
+	<title>Login Sys SVC</title>
 	{!! Html::style('assets/css/bootstrap.min.css') !!}
 	<style>
 		a {
@@ -76,7 +76,7 @@
 			<div class="errors-form">
 				<p></p>
 			</div>
-			{!! Form::open(['route' => 'login', 'method' => 'POST']) !!}
+			<form action="/auth/login" method="POST">
 				{!! csrf_field() !!}
 				<div class="form-group col-xs-12 col-sm-6">
 					<label for="email">Usuario</label>
@@ -90,7 +90,7 @@
 					<button type="submit" class="btn btn-primary col-xs-offset-4 col-xs-4" id="btnIngresar">Ingresar</button>
 				</div>
 				<a href="#">Olvide mi Contraseña</a>
-			{!! Form::close() !!}
+			</form>
 		</div>
 	</div>
 	{!! Html::script('assets/js/jquery.js') !!}
