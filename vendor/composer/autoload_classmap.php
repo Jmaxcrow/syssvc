@@ -538,6 +538,7 @@ return array(
     'Update2ClientsTable' => $baseDir . '/database/migrations/2017_09_28_204214_update_2_clients_table.php',
     'Update2OriginsSubOriginsTable' => $baseDir . '/database/migrations/2017_09_27_164411_update_2_origins_sub_origins_table.php',
     'Update2SellersTable' => $baseDir . '/database/migrations/2017_09_29_025924_update_2_sellers_table.php',
+    'Update3SellersTable' => $baseDir . '/database/migrations/2017_09_30_205402_update_3_sellers_table.php',
     'Update3SubOriginsTable' => $baseDir . '/database/migrations/2017_09_29_115541_update_3_sub_origins_table.php',
     'Update4SellersTable' => $baseDir . '/database/migrations/2017_09_30_003645_update_4_sellers_table.php',
     'UpdateClientsTable' => $baseDir . '/database/migrations/2017_09_26_231749_update_clients_table.php',

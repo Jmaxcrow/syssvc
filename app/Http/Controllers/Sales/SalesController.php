@@ -91,7 +91,7 @@ class SalesController extends Controller
         
         $seller->idUser = $user->id;
         $seller->level = $request->level;
-        $seller->inserted_by = 1;
+        $seller->inserted_by = $request->inserted_by;
         if ($seller->save()) {
              $message = "El vendedor  $seller->name $seller->lastname ha sido registrado Exitosamente. Se le envio un email de confirmacion de cuenta ";
          }

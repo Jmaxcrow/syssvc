@@ -1,4 +1,4 @@
-@extends('principal')
+@extends('layout_dashboard')
 
 @section('title')
 	:: Cambio de Password ::
@@ -7,15 +7,16 @@
 @section('content')
 
 <div class="container">
-	{!! Form::open(['route' => ['auth.update', 'id' => $user->idUser], 'method' => 'PUT', 'class' => 'col-md-6 col-md-offset-6']) !!}
+	{!! Form::open(['route' => 'auth/changePassword', 'method' => 'PUT', 'class' => 'col-md-4 col-md-offset-4']) !!}
 		{!! csrf_field() !!}
+		<input name="id" type="hidden" value="{{ $user->idUser }}">
 		<div class="form-group">
-			<label for="changepassword">Nuevo Password</label>
-			<input type="password" name="password" id="password" maxlength="16">
+			<label for="password">Nuevo Password</label>
+			<input type="password" name="password" id="password" maxlength="16" class="form-control">
 		</div>
 		<div class="form-group">
 			<label for="repeatchangepassword">Repetir Password</label>
-			<input type="repeatpassword" name="re-password" id="re-password" maxlength="16">
+			<input type="password" name="re_password" id="re-password" maxlength="16" class="form-control">
 		</div>
 		<div class="form-group">
 			<button type="submit" id="verify" class="btn btn-info">Actualizar Contraseña</button>

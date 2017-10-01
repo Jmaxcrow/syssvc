@@ -11,14 +11,23 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
+	return view('auth/login');
+})->name('/');
+
+Route::get('/home', function() {
     return view('principal');
 });
-
+Route::get('auth/login', function() {
+		return view('auth/login', ['message' => 'Datos Incorrectos. Intente Nuevamente']);
+});
+Route::post('auth/login', 'Auth\AuthController@postLogin')->name('login');
 Route::get('clients/history', 'Clients\ClientController@showHistory' );
+
 Route::get('auth/confirm/email/{email}/confirm_token/{confirm_token}', 'Auth\AuthController@confirmRegister');
+
 Route::get('auth/showLogin', 'Auth\AuthController@showLogin');
-Route::put('auth.update', 'Auth\AuthController@changePassword');
+Route::put('auth/changePassword', 'Auth\AuthController@changePassword')->name('auth/changePassword');
 Route::resource('clients', 'Clients\ClientController');
 Route::resource('telemarketing', 'Telemarketing\TelemarketingController');
 Route::resource('sales', 'Sales\SalesController');

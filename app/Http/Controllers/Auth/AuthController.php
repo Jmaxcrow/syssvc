@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Hash;
 use Mail;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller
@@ -42,9 +44,8 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
+            'email' => 'required|email|max:50',
+            'password' => 'required|confirmed|min:6|max:12',
         ]);
     }
 
@@ -57,9 +58,8 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
         ]);
     }
 
@@ -68,41 +68,33 @@ class AuthController extends Controller
         $user = new User;
         $the_user = $user->select()
                     ->where('email', '=', $email)
-                    ->where('confirm_token', '=', $confirm_token)->get();
+                    ->where('confirm_token', '=', $confirm_token)->first();
 
         if (count($the_user) > 0) {
             $active = '1'; 
-            $confirm_token = str_random(100);/*
+            $confirm_token = str_random(100);
             $user->where('email', '=', $email)
-                ->update(['active' => $active, 'confirm_token' => $confirm_token]);*/
+                ->update(['active' => $active, 'confirm_token' => $confirm_token]);
 
-            $data = ['user' => $user];
-            return redirect('auth/changePassword', $data);
+            $data = ['user' => $the_user];
+            return view('auth/changePassword', $data);
         }
-
         else {
-            return redirect('auth/showLogin');
+            return redirect()->route('/');
         }
     }
 
-    public function changePassword($id, Request $request)
+    public function changePassword(Request $request)
     {
         $password = $request->password;
         $re_password = $request->re_password;
         if (strcasecmp($password, $re_password) != 0) {
-            return redirect('auth/showLogin')->with('message', 'No puedes confirmar tu cuenta... Los passwords no coinciden vuelve a intentarlo');
+            return redirect()->route('/'); 
         }
-        $user = User::find($id)->first();
+        $user = new User;
+        $user->where('idUser', '=', $request->id)
+            ->update(['password' => Hash::make($request->password)]);
 
-        $user->password = bcrypt($password);
-
-        $user->save();
-
-        return redirect('auth/showLogin')->with('message', 'Confirmada tu cuenta, Ya puedes iniciar sesion!!');
-    }
-
-    public function showLogin($message = null)
-    {
-        return $message;
+        return redirect()->route('/');
     }
 }

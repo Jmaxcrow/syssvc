@@ -867,6 +867,7 @@ class ComposerStaticInit98c331735624a80b80047acede6492e1
         'Update2ClientsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_28_204214_update_2_clients_table.php',
         'Update2OriginsSubOriginsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_27_164411_update_2_origins_sub_origins_table.php',
         'Update2SellersTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_025924_update_2_sellers_table.php',
+        'Update3SellersTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_30_205402_update_3_sellers_table.php',
         'Update3SubOriginsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_115541_update_3_sub_origins_table.php',
         'Update4SellersTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_30_003645_update_4_sellers_table.php',
         'UpdateClientsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_231749_update_clients_table.php',
