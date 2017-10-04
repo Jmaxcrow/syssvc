@@ -33,12 +33,15 @@
             @foreach ($roles as $role)
               @if (strcasecmp($role->name, 'administrador') == 0) 
                   @include('roles.administrador');
+                  <?php break; ?>
               @elseif (strcasecmp($role->name, 'vendedor') == 0) 
                   <?php $data = ['roles' => $roles] ?>
                   @include('roles.vendedor', $data);
+                  <?php break; ?>
               @else
                   <?php $data = ['roles' => $roles] ?>
                   @include('roles.telemarketing', $data);
+                  <?php break; ?>
               @endif
             @endforeach
           </ul>
@@ -47,11 +50,15 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Roles <span class="caret"></span></a>
               <ul class="dropdown-menu">
                    @foreach($roles as $role)
-                    <li><a href="role/'{{$role->name}}">{{ $role->name }}</a></li>
+                    @if(strcasecmp($role->name, 'telemarketing') == 0)
+                        <li><a href="/telemarketing/choosesellertowork">{{ $role->name }}</a></li>
+                        <?php continue; ?>
+                    @endif
+                    <li><a href="/role/'{{$role->name}}">{{ $role->name }}</a></li>
                   @endforeach
               </ul>
             </li>
-            <li><a href="/auth/logout">Cerrar Sesion</a></li>
+            <li><a href="/principal/getOut">Cerrar Sesion</a></li>
         </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->

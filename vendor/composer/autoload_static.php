@@ -336,11 +336,11 @@ class ComposerStaticInit98c331735624a80b80047acede6492e1
 
     public static $classMap = array (
         'CreateClientsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_215851_create_clients_table.php',
+        'CreateDateTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_02_114507_create_date_table.php',
         'CreateHistoriesTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_215903_create_histories_table.php',
         'CreateOriginsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_215802_create_origins_table.php',
         'CreateRolTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_020846_create_rol_table.php',
         'CreateSellersTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_023903_create_sellers_table.php',
-        'CreateSessionsTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_01_161651_create_sessions_table.php',
         'CreateSubOriginsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_215810_create_sub_origins_table.php',
         'CreateTelemarketerTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_020950_create_telemarketer_table.php',
         'CreateUserRoleTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_020926_create_user_role_table.php',
@@ -865,6 +865,7 @@ class ComposerStaticInit98c331735624a80b80047acede6492e1
         'TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
         'Update1SellersTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_024850_update_1_sellers_table.php',
+        'Update1Telemarketing' => __DIR__ . '/../..' . '/database/migrations/2017_10_02_030632_update_1_telemarketing.php',
         'Update2ClientsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_28_204214_update_2_clients_table.php',
         'Update2OriginsSubOriginsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_27_164411_update_2_origins_sub_origins_table.php',
         'Update2SellersTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_29_025924_update_2_sellers_table.php',

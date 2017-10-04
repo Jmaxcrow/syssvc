@@ -34,7 +34,7 @@
 					</ul>
 				<ul class="nav navbar-nav navbar-right">
 						@yield('roles')
-			      <li><a href="{!! route('auth/logout') !!}">Cerrar Sesion</a></li>
+			      <li><a href="/principal/getOut">Cerrar Sesion</a></li>
 			  </ul>
 		    </div><!-- /.navbar-collapse -->
 	  	</div><!-- /.container-fluid -->

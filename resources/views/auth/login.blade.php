@@ -77,7 +77,6 @@
 				<div class="alert alert-info alert-dismissible" role="alert">
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				  <strong>{{ Session::get('message') }}</strong>
-				  <?php Session::flush(); ?>
 				</div>
 			@endif
 			<form action="/auth/login" method="POST">
@@ -88,7 +87,7 @@
 				</div>
 				<div class="form-group col-xs-12 col-sm-6">
 					<label for="password">Contraseña</label>
-					<input type="password" maxlength="12" required="true" class="form-control" name="password" id="txtPassword">
+					<input type="password" maxlength="18" required="true" class="form-control" name="password" id="txtPassword">
 				</div>
 				<div class="form-group col-xs-12">
 					<button type="submit" class="btn btn-primary col-xs-offset-4 col-xs-4" id="btnIngresar">Ingresar</button>

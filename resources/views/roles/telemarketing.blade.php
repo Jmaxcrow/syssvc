@@ -18,4 +18,7 @@
         <li><a href="{!! route('calls.index') !!}">Pendientes de llamadas</a></li>
     </ul>
   </li>
+  <li class="dropdown">
+    <a href="/telemarketingfa/leaveSeller">Cambiar de Vendedor</a>
+  </li>
 

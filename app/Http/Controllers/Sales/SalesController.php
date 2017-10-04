@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Sales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use Auth;
+use Redirect;
 use Session;
 use Mail;
 use Crypt;
 use App\Seller;
 use App\Worker;
+use App\Telemarketer;
 use App\User;
+use App\Role;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -32,8 +36,9 @@ class SalesController extends Controller
         if (!($allowed)) {
             Session::flush();
             Session::put('message', 'Acceso Denegado. No tiene Permisos Para Acceder al Modulo de Telemarketing!!!. Accion Registrada');
-            Redirect::to('/auth/logout')->send();
+            return redirect('auth/logout');
         }
+        
     }
     /**
      * Display a listing of the resource.
@@ -42,7 +47,68 @@ class SalesController extends Controller
      */
     public function index($message = null)
     {
-        return $message;
+        $this->hasTelemarketing();
+        $roles = Session::get('roles');
+        $sellers = DB::table('sellers')
+                    ->join('users', 'sellers.idUser', '=', 'users.idUser')
+                    ->join('workers', 'workers.idWorker', '=', 'users.owner')
+                    ->select('sellers.idSeller', 'workers.*')
+                    ->get();
+        $data = ['sellers' => $sellers, 'roles' => $roles, 'message' => $message];
+        return view('sales/listSellers', $data);
+    }
+
+    public function hasTelemarketing()
+    {
+        $user = Auth::user();
+        $telemarketingChoosed = $telemarketer = DB::table('sellers')
+                                                ->where('sellers.idUser', '=', $user->idUser)
+                                                ->join('users', 'sellers.idUser', '=', 'users.idUser')
+                                                ->join('workers', 'workers.idWorker', '=', 'users.owner')
+                                                ->select('sellers.idTelemarketer')
+                                                ->first();
+        if ( $telemarketingChoosed->idTelemarketer == null) {
+            Redirect::to('/sales/chooseTelemarketing/list')->send();
+            exit;
+        }
+    }
+
+    public function showTelemarketersAvaliables()
+    {
+        $telemarketers = DB::table('telemarketing')
+                    ->join('users', 'telemarketing.idUser', '=', 'users.idUser')
+                    ->join('workers', 'workers.idWorker', '=', 'users.owner')
+                    ->select('telemarketing.idTelemarketer', 'workers.*')
+                    ->get();
+        $data = ['telemarketers' => $telemarketers];
+        return view('sales/chooseTelemarketing', $data);
+    }
+
+    public function chooseTelemarketing($id)
+    {
+        $user = Auth::user();
+        if ($id == 0) { // si id = 0, crear nuevo telemarketing, sino asignar a vendedor
+            $telemarketer = new telemarketer;
+            $telemarketer->idUser = $user->idUser;
+            $telemarketer->save();
+
+            $role = Role::where('name', '=', 'telemarketing')->first();
+            DB::insert('insert into user_roles (idUser, idRole) values (?, ?)', [$user->idUser, $role->idRole]);
+
+            $seller = DB::table('sellers')->where('idUser', '=', $user->idUser)->first();
+            $changeSeller = Seller::find($seller->idSeller);
+            $changeSeller->idTelemarketer = $telemarketer->idTelemarketer;
+            $changeSeller->save();
+
+        }
+        else {
+            $seller = DB::table('sellers')->where('idUser', '=', $user->idUser)->first();
+            $changeSeller = Seller::find($seller->idSeller);
+            $changeSeller->idTelemarketer = $id;
+            $changeSeller->save();
+        }
+        
+        return redirect('/sales');
     }
 
     /**
@@ -93,7 +159,7 @@ class SalesController extends Controller
         $user->email = $worker->email;
         $user->password = str_random(60);
         $user->confirm_token = str_random(100);
-        $user->owner = $worker->id;
+        $user->owner = $worker->idWorker;
 
         $user->save();
 
@@ -102,7 +168,7 @@ class SalesController extends Controller
         $role = Role::where('name', '=', 'vendedor')->first();
 
 
-        DB::insert('insert into user_roles (idUser, idRole) values (?, ?)', [$user->id, $role->id]);
+        DB::insert('insert into user_roles (idUser, idRole) values (?, ?)', [$user->idUser, $role->idRole]);
 
         $data['name'] = $worker->name;
         $data['email'] = $user->email;
@@ -111,14 +177,14 @@ class SalesController extends Controller
         Mail::send('emails.create', ['data' => $data], function ($mail) use($data) {
                    
             $mail->to($data['email'], $data['name']);
-                
+            $mail->cc('barrantes.dev96@gmail.com');
             $mail->subject('Confirmar Cuenta');
         });
 
         //creating seller
         $seller = new Seller;
         
-        $seller->idUser = $user->id;
+        $seller->idUser = $user->idUser;
         $seller->level = $request->level;
         $seller->inserted_by = $request->inserted_by;
         if ($seller->save()) {
@@ -140,7 +206,15 @@ class SalesController extends Controller
      */
     public function show($id)
     {
-        
+        $roles = Session::get('roles');
+        $seller = DB::table('sellers')
+                    ->where('sellers.idSeller', '=', $id)
+                    ->join('users', 'sellers.idUser', '=', 'users.idUser')
+                    ->join('workers', 'workers.idWorker', '=', 'users.owner')
+                    ->select('sellers.idSeller', 'sellers.level', 'workers.*')
+                    ->first();
+        $data = ['seller' => $seller, 'roles' => $roles];
+        return view('sales/seeSeller', $data);
     }
 
     /**
@@ -209,6 +283,6 @@ class SalesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

@@ -7,11 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'CreateClientsTable' => $baseDir . '/database/migrations/2017_09_26_215851_create_clients_table.php',
+    'CreateDateTable' => $baseDir . '/database/migrations/2017_10_02_114507_create_date_table.php',
     'CreateHistoriesTable' => $baseDir . '/database/migrations/2017_09_26_215903_create_histories_table.php',
     'CreateOriginsTable' => $baseDir . '/database/migrations/2017_09_26_215802_create_origins_table.php',
     'CreateRolTable' => $baseDir . '/database/migrations/2017_09_29_020846_create_rol_table.php',
     'CreateSellersTable' => $baseDir . '/database/migrations/2017_09_29_023903_create_sellers_table.php',
-    'CreateSessionsTable' => $baseDir . '/database/migrations/2017_10_01_161651_create_sessions_table.php',
     'CreateSubOriginsTable' => $baseDir . '/database/migrations/2017_09_26_215810_create_sub_origins_table.php',
     'CreateTelemarketerTable' => $baseDir . '/database/migrations/2017_09_29_020950_create_telemarketer_table.php',
     'CreateUserRoleTable' => $baseDir . '/database/migrations/2017_09_29_020926_create_user_role_table.php',
@@ -536,6 +536,7 @@ return array(
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'Update1SellersTable' => $baseDir . '/database/migrations/2017_09_29_024850_update_1_sellers_table.php',
+    'Update1Telemarketing' => $baseDir . '/database/migrations/2017_10_02_030632_update_1_telemarketing.php',
     'Update2ClientsTable' => $baseDir . '/database/migrations/2017_09_28_204214_update_2_clients_table.php',
     'Update2OriginsSubOriginsTable' => $baseDir . '/database/migrations/2017_09_27_164411_update_2_origins_sub_origins_table.php',
     'Update2SellersTable' => $baseDir . '/database/migrations/2017_09_29_025924_update_2_sellers_table.php',

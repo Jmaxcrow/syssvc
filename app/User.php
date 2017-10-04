@@ -37,13 +37,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     * each User has a Worker
     */
 
+    public function seller()
+    {
+        return $this->belongsTo('App\Seller');
+    }
+
+    public function telemarketer()
+    {
+        return $this->belongsTo('App\telemarketer');
+    }
+
     public function worker()
     {
-        $this->belongsTo('App\Worker');
+        return $this->belongsTo('App\Worker');
     }
 
     public function role()
     {
-        $this->hasMany('App\Role');
+        return $this->hasMany('App\Role');
     }
 }

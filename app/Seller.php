@@ -16,7 +16,7 @@ class Seller extends Model
 
     public function seller()
     {
-    		$this->belongsTo('App\Seller');
+    	return $this->belongsTo('App\Seller');
     }
 
     /**
@@ -24,7 +24,11 @@ class Seller extends Model
     */
     public function telemarketer($value='')
     {
-    		$this->belongsTo('App\Telemarketer');
+    	return $this->belongsTo('App\Telemarketer');
     }
 
+    public function user()
+    {
+        return $this->hasOne('App\User');
+    }
 }

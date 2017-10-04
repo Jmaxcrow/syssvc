@@ -29,86 +29,39 @@ class PrincipalController extends Controller
         if (Auth::check()) {
             if (Session::has('roles')) {
                 $roles = Session::get('roles');
-                return view('principal', ['roles' => $roles]);
             }
-
-            $user = Auth::user();
-            $roles = DB::table('user_roles')
-                        ->join('users', 'user_roles.idUser', '=', 'users.idUser')
-                        ->join('roles', 'roles.idRole', '=', 'user_roles.idRole')
-                        ->where('user_roles.idUser', '=', $user->idUser)
-                        ->select('roles.*')
-                        ->orderBy('idRole', 'desc')
-                        ->get();
-            Session::put('roles', $roles);
-            return view('principal', ['roles' => $roles]);
+            else {
+                $user = Auth::user();
+                $roles = DB::table('user_roles')
+                            ->join('users', 'user_roles.idUser', '=', 'users.idUser')
+                            ->join('roles', 'roles.idRole', '=', 'user_roles.idRole')
+                            ->where('user_roles.idUser', '=', $user->idUser)
+                            ->select('roles.*')
+                            ->orderBy('idRole', 'desc')
+                            ->get();
+                Session::put('roles', $roles);
+            }
+            foreach ($roles as $role) {
+                if (strcasecmp($role->name, 'administrador') == 0 ) {
+                    return view('principal', ['roles' => $roles]);
+                }
+                if (strcasecmp($role->name, 'vendedor') == 0 ) {
+                    return redirect('sales');
+                }
+                if (strcasecmp($role->name, 'telemarketing') == 0 ) {
+                    return redirect('telemarketingfa/choosesellertowork');
+                }
+            }
         }
         return redirect('auth/login');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function getOut()
     {
-        //
+        Session::flush();
+        Session::put('message', 'Has salido Correctamente de la aplicacion');
+        return redirect('auth/logout');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

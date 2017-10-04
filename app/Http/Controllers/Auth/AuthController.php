@@ -84,7 +84,7 @@ class AuthController extends Controller
             return view('auth/changePassword', $data);
         }
         else {
-            return redirect()->route('/');
+            return redirect('/');
         }
     }
 
@@ -93,12 +93,12 @@ class AuthController extends Controller
         $password = $request->password;
         $re_password = $request->re_password;
         if (strcasecmp($password, $re_password) != 0) {
-            return redirect()->route('/'); 
+            return redirect('/')->with('Passwords incorrectos... vuelva a intentarlo');
         }
         $user = new User;
         $user->where('idUser', '=', $request->id)
             ->update(['password' => Hash::make($request->password)]);
 
-        return redirect()->route('/');
+        return redirect('/')->with('Cuenta Validada. Inicie Sesion');
     }
 }
